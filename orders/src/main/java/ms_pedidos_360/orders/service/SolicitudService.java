@@ -78,12 +78,15 @@ public class SolicitudService {
 
         Solicitud solicitud = buscarPorId(id);
 
-        if (nuevoEstado == EstadoSolicitud.RESUELTA
-                && solicitud.getEstado() != EstadoSolicitud.EN_PROCESO) {
+        EstadoSolicitud estadoActual = solicitud.getEstado();
+
+        if (!estadoActual.puedeTransicionarA(nuevoEstado)) {
 
             throw new EstadoSolicitudInvalidoException(
-                    "Una solicitud solo puede pasar a RESUELTA " +
-                            "si se encuentra en estado EN_PROCESO"
+                    "No se permite cambiar el estado de "
+                            + estadoActual
+                            + " a "
+                            + nuevoEstado
             );
         }
 
@@ -105,6 +108,16 @@ public class SolicitudService {
             throw new SolicitudYaAsignadaException(
                     "La solicitud ya se encuentra asignada al operador: "
                             + solicitud.getOperadorAsignado()
+            );
+        }
+
+        if (!solicitud.getEstado()
+                .puedeTransicionarA(EstadoSolicitud.ASIGNADA)) {
+
+            throw new EstadoSolicitudInvalidoException(
+                    "La solicitud no puede ser asignada "
+                            + "porque se encuentra en estado "
+                            + solicitud.getEstado()
             );
         }
 
