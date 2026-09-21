@@ -7,6 +7,7 @@ import ms_pedidos_360.orders.model.EstadoSolicitud;
 import ms_pedidos_360.orders.model.Solicitud;
 import ms_pedidos_360.orders.repository.SolicitudRepository;
 import org.springframework.stereotype.Service;
+import ms_pedidos_360.orders.dto.CrearSolicitudRequest;
 
 import java.util.List;
 
@@ -53,14 +54,18 @@ public class SolicitudService {
     }
 
 
-    public Solicitud crear(Solicitud solicitud) {
+    public Solicitud crear(CrearSolicitudRequest request) {
 
-        solicitud.setId(null);
+        Solicitud solicitud = new Solicitud();
+
+        solicitud.setTitulo(request.titulo());
+        solicitud.setDescripcion(request.descripcion());
+        solicitud.setCategoriaId(request.categoriaId());
+        solicitud.setPrioridadId(request.prioridadId());
+        solicitud.setUsuarioSolicitante(request.usuarioSolicitante());
 
         solicitud.setEstado(EstadoSolicitud.CREADA);
-
         solicitud.setOperadorAsignado(null);
-
         solicitud.setDetalleAtencion(null);
 
         return solicitudRepository.save(solicitud);
