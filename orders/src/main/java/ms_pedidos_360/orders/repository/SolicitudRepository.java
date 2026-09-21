@@ -1,5 +1,6 @@
 package ms_pedidos_360.orders.repository;
 
+import ms_pedidos_360.orders.model.EstadoSolicitud;
 import ms_pedidos_360.orders.model.Solicitud;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -19,4 +20,7 @@ public interface SolicitudRepository extends JpaRepository<Solicitud, Long> {
 
     List<Solicitud> findByOperadorAsignadoIsNullOrderByFechaCreacionDesc();
 
+    List<Solicitud> findByOperadorAsignadoIsNullAndEstadoOrderByFechaCreacionDesc(
+            EstadoSolicitud estado
+    );
 }

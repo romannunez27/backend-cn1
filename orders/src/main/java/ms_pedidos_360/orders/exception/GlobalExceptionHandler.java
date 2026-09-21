@@ -6,6 +6,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import jakarta.validation.ConstraintViolationException;
 
 import java.time.LocalDateTime;
 
@@ -92,6 +93,27 @@ public class GlobalExceptionHandler {
                 HttpStatus.BAD_REQUEST.value(),
                 "Bad Request",
                 "El cuerpo de la solicitud contiene datos inválidos"
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<ErrorResponse> manejarConstraintViolation(
+            ConstraintViolationException ex) {
+
+        String mensaje = ex.getConstraintViolations()
+                .stream()
+                .map(violacion -> violacion.getMessage())
+                .findFirst()
+                .orElse("Datos de entrada inválidos");
+
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                mensaje
         );
 
         return ResponseEntity

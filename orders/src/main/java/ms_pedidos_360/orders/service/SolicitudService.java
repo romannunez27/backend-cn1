@@ -41,7 +41,9 @@ public class SolicitudService {
 
     public List<Solicitud> listarDisponibles() {
         return solicitudRepository
-                .findByOperadorAsignadoIsNullOrderByFechaCreacionDesc();
+                .findByOperadorAsignadoIsNullAndEstadoOrderByFechaCreacionDesc(
+                        EstadoSolicitud.CREADA
+                );
     }
 
     public Solicitud buscarPorId(Long id) {
@@ -133,6 +135,15 @@ public class SolicitudService {
             String detalleAtencion) {
 
         Solicitud solicitud = buscarPorId(id);
+
+        if (solicitud.getEstado() == EstadoSolicitud.CANCELADA
+                || solicitud.getEstado() == EstadoSolicitud.CERRADA) {
+
+            throw new EstadoSolicitudInvalidoException(
+                    "No se puede registrar atención en una solicitud en estado "
+                            + solicitud.getEstado()
+            );
+        }
 
         solicitud.setDetalleAtencion(detalleAtencion);
 
