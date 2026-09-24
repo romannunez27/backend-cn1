@@ -1,15 +1,11 @@
 package ms_pedidos_360.bff.client;
 
-import ms_pedidos_360.bff.dto.catalog.CatalogoResponse;
+import ms_pedidos_360.bff.dto.catalog.*;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import java.util.List;
 import org.springframework.core.ParameterizedTypeReference;
-import ms_pedidos_360.bff.dto.catalog.CategoriaRequest;
-import ms_pedidos_360.bff.dto.catalog.CategoriaResponse;
-import ms_pedidos_360.bff.dto.catalog.PrioridadRequest;
-import ms_pedidos_360.bff.dto.catalog.PrioridadResponse;
 
 @Component
 public class CatalogClient {
@@ -31,6 +27,18 @@ public class CatalogClient {
                 .retrieve()
                 .body(CatalogoResponse.class);
     }
+    public CatalogoV2Response obtenerCatalogoV2() {
+
+
+        return catalogRestClient
+                .get()
+                .uri("/v2/catalogo")
+                .retrieve()
+                .body(CatalogoV2Response.class);
+
+
+    }
+
     public List<CategoriaResponse> obtenerCategorias(){
 
         return catalogRestClient
