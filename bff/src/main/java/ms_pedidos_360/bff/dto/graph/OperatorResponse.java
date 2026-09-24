@@ -9,6 +9,8 @@ import lombok.Data;
 @AllArgsConstructor
 public class OperatorResponse {
 
+    private String id;
+
     private String nombre;
 
     private String correo;
