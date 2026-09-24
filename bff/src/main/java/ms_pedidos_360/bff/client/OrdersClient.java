@@ -103,4 +103,22 @@ public class OrdersClient {
                 .retrieve()
                 .body(SolicitudResponse.class);
     }
+    public List<SolicitudResponse> obtenerSolicitudesAsignadas(
+            String operador
+    ){
+
+        return ordersRestClient
+                .get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/v1/solicitudes/asignadas")
+                        .queryParam(
+                                "operador",
+                                operador
+                        )
+                        .build())
+                .retrieve()
+                .body(new ParameterizedTypeReference<
+                        List<SolicitudResponse>>() {});
+
+    }
 }

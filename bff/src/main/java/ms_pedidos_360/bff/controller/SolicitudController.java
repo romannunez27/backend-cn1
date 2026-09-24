@@ -36,6 +36,22 @@ public class SolicitudController {
                 usuarioSolicitante
         );
     }
+    @GetMapping("/asignadas")
+    public List<SolicitudResponse> obtenerAsignadas(
+            @AuthenticationPrincipal Jwt jwt
+    ){
+
+        String operador =
+                jwt.getClaimAsString(
+                        "preferred_username"
+                );
+
+
+        return ordersClient.obtenerSolicitudesAsignadas(
+                operador
+        );
+
+    }
 
     @GetMapping("/mias")
     public List<SolicitudResponse> obtenerMisSolicitudes(

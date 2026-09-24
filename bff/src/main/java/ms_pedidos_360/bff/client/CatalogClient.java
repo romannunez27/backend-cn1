@@ -4,6 +4,12 @@ import ms_pedidos_360.bff.dto.catalog.CatalogoResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
+import java.util.List;
+import org.springframework.core.ParameterizedTypeReference;
+import ms_pedidos_360.bff.dto.catalog.CategoriaRequest;
+import ms_pedidos_360.bff.dto.catalog.CategoriaResponse;
+import ms_pedidos_360.bff.dto.catalog.PrioridadRequest;
+import ms_pedidos_360.bff.dto.catalog.PrioridadResponse;
 
 @Component
 public class CatalogClient {
@@ -24,5 +30,109 @@ public class CatalogClient {
                 .uri("/v1/catalogo")
                 .retrieve()
                 .body(CatalogoResponse.class);
+    }
+    public List<CategoriaResponse> obtenerCategorias(){
+
+        return catalogRestClient
+                .get()
+                .uri("/v1/catalogo/categorias")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+
+    }
+
+
+
+    public CategoriaResponse crearCategoria(
+            CategoriaRequest request
+    ){
+
+        return catalogRestClient
+                .post()
+                .uri("/v1/catalogo/categorias")
+                .body(request)
+                .retrieve()
+                .body(CategoriaResponse.class);
+
+    }
+
+
+
+    public CategoriaResponse actualizarCategoria(
+            Long id,
+            CategoriaRequest request
+    ){
+
+        return catalogRestClient
+                .put()
+                .uri("/v1/catalogo/categorias/{id}", id)
+                .body(request)
+                .retrieve()
+                .body(CategoriaResponse.class);
+
+    }
+
+
+
+    public void eliminarCategoria(Long id){
+
+        catalogRestClient
+                .delete()
+                .uri("/v1/catalogo/categorias/{id}", id)
+                .retrieve()
+                .toBodilessEntity();
+
+    }
+    public List<PrioridadResponse> obtenerPrioridades(){
+
+        return catalogRestClient
+                .get()
+                .uri("/v1/catalogo/prioridades")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+
+    }
+
+
+
+    public PrioridadResponse crearPrioridad(
+            PrioridadRequest request
+    ){
+
+        return catalogRestClient
+                .post()
+                .uri("/v1/catalogo/prioridades")
+                .body(request)
+                .retrieve()
+                .body(PrioridadResponse.class);
+
+    }
+
+
+
+    public PrioridadResponse actualizarPrioridad(
+            Long id,
+            PrioridadRequest request
+    ){
+
+        return catalogRestClient
+                .put()
+                .uri("/v1/catalogo/prioridades/{id}", id)
+                .body(request)
+                .retrieve()
+                .body(PrioridadResponse.class);
+
+    }
+
+
+
+    public void eliminarPrioridad(Long id){
+
+        catalogRestClient
+                .delete()
+                .uri("/v1/catalogo/prioridades/{id}", id)
+                .retrieve()
+                .toBodilessEntity();
+
     }
 }

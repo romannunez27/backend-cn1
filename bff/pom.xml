@@ -59,6 +59,20 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
+		<!-- Microsoft Graph -->
+		<dependency>
+			<groupId>com.microsoft.graph</groupId>
+			<artifactId>microsoft-graph</artifactId>
+			<version>6.56.0</version>
+		</dependency>
+
+
+		<!-- Azure Identity para autenticación aplicación a aplicación -->
+		<dependency>
+			<groupId>com.azure</groupId>
+			<artifactId>azure-identity</artifactId>
+			<version>1.16.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>
