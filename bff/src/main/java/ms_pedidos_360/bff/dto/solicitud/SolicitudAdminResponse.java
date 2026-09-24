@@ -7,7 +7,7 @@ import ms_pedidos_360.bff.dto.catalog.PrioridadResponse;
 import java.time.LocalDateTime;
 
 
-public record SolicitudDetalleResponse(
+public record SolicitudAdminResponse(
 
         Long id,
 
@@ -19,9 +19,9 @@ public record SolicitudDetalleResponse(
 
         PrioridadResponse prioridad,
 
-        String estado,
+        UsuarioResponse usuario,
 
-        String usuarioSolicitante,
+        String estado,
 
         String operadorAsignado,
 
@@ -29,4 +29,4 @@ public record SolicitudDetalleResponse(
 
         LocalDateTime fechaActualizacion
 
-){}
+) {}

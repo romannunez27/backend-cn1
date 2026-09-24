@@ -7,6 +7,7 @@ import ms_pedidos_360.bff.client.OrdersClient;
 
 import ms_pedidos_360.bff.dto.orders.*;
 
+import ms_pedidos_360.bff.dto.solicitud.SolicitudAdminResponse;
 import ms_pedidos_360.bff.dto.solicitud.SolicitudDetalleResponse;
 
 import ms_pedidos_360.bff.service.SolicitudFacadeService;
@@ -18,6 +19,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 
 import org.springframework.web.bind.annotation.*;
+import ms_pedidos_360.bff.dto.solicitud.SolicitudDetalleResponse;
 
 
 import java.util.List;
@@ -38,8 +40,10 @@ public class SolicitudController {
     ) {
 
         this.ordersClient = ordersClient;
+
         this.solicitudFacadeService =
                 solicitudFacadeService;
+
     }
 
     @PostMapping
@@ -68,30 +72,28 @@ public class SolicitudController {
 
     }
     @GetMapping("/asignadas")
-    public List<SolicitudResponse> obtenerAsignadas(
+    public List<SolicitudDetalleResponse> obtenerAsignadas(
             @AuthenticationPrincipal Jwt jwt
     ) {
-
-        System.out.println(jwt.getClaims());
 
         String operador =
                 jwt.getClaimAsString("oid");
 
 
-        System.out.println(
-                "OID BUSCADO: " + operador
-        );
+        return solicitudFacadeService
+                .obtenerSolicitudesAsignadas(
+                        operador
+                );
 
-
-        return ordersClient.obtenerSolicitudesAsignadas(
-                operador
-        );
     }
 
     @GetMapping
-    public List<SolicitudResponse> obtenerTodas() {
+    public List<SolicitudAdminResponse> obtenerTodas() {
 
-        return ordersClient.obtenerTodas();
+
+        return solicitudFacadeService
+                .obtenerTodas();
+
 
     }
 

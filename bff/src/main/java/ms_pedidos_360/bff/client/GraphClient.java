@@ -26,10 +26,20 @@ public class GraphClient {
 
     public List<User> obtenerUsuarios() {
 
-
         return graphServiceClient
                 .users()
-                .get()
+                .get(request -> {
+
+                    request.queryParameters.select =
+                            new String[]{
+                                    "id",
+                                    "displayName",
+                                    "userPrincipalName",
+                                    "mail",
+                                    "otherMails"
+                            };
+
+                })
                 .getValue();
 
     }
