@@ -109,6 +109,7 @@ public class SolicitudController {
         );
     }
 
+    //test
     @PatchMapping("/{id}/atencion")
     public ResponseEntity<Solicitud> registrarAtencion(
             @PathVariable Long id,

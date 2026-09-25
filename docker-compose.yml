@@ -1,0 +1,112 @@
+services:
+
+  bff:
+
+    build:
+      context: ./bff
+
+    container_name: mesatech-bff
+
+    restart: always
+
+    ports:
+      - "8080:8080"
+
+    environment:
+
+      ORDERS_URL: http://orders:8081
+
+      CATALOG_URL: http://catalog:8082
+
+
+    depends_on:
+
+      - orders
+      - catalog
+
+
+    networks:
+
+      - mesatech-network
+
+
+
+  orders:
+
+    build:
+
+      context: ./orders
+
+
+    container_name: mesatech-orders
+
+
+    restart: always
+
+
+    ports:
+
+      - "8081:8081"
+
+
+    environment:
+
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://mesatech-db.cvdtbbsrhm41.us-east-1.rds.amazonaws.com:5432/mesatech
+
+      SPRING_DATASOURCE_USERNAME: fsr
+
+      SPRING_DATASOURCE_PASSWORD: "25XD3849MJ3v"
+
+
+    networks:
+
+      - mesatech-network
+
+
+
+
+  catalog:
+
+
+    build:
+
+      context: ./catalog
+
+
+    container_name: mesatech-catalog
+
+
+    restart: always
+
+
+    ports:
+
+      - "8082:8082"
+
+
+    environment:
+
+
+      SPRING_DATASOURCE_URL: jdbc:postgresql://mesatech-db.cvdtbbsrhm41.us-east-1.rds.amazonaws.com:5432/mesatech
+
+
+      SPRING_DATASOURCE_USERNAME: fsr
+
+
+      SPRING_DATASOURCE_PASSWORD: "25XD3849MJ3v"
+
+
+    networks:
+
+      - mesatech-network
+
+
+
+
+networks:
+
+
+  mesatech-network:
+
+    driver: bridge
