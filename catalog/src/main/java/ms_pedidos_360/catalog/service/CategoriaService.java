@@ -1,5 +1,6 @@
 package ms_pedidos_360.catalog.service;
 
+import ms_pedidos_360.catalog.dto.CategoriaRequest;
 import ms_pedidos_360.catalog.model.Categoria;
 import ms_pedidos_360.catalog.repository.CategoriaRepository;
 import org.springframework.stereotype.Service;
@@ -83,4 +84,16 @@ public class CategoriaService {
 
         categoriaRepository.save(categoria);
     }
+
+
+    public Categoria crear(CategoriaRequest request) {
+
+        Categoria categoria = new Categoria();
+
+        categoria.setNombre(request.getNombre());
+        categoria.setDescripcion(request.getDescripcion());
+
+        return crear(categoria);
+    }
+
 }
