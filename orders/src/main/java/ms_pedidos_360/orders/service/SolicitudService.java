@@ -1,5 +1,6 @@
 package ms_pedidos_360.orders.service;
 
+import ms_pedidos_360.orders.exception.CategoriaLocalNoEncontradaException;
 import ms_pedidos_360.orders.exception.EstadoSolicitudInvalidoException;
 import ms_pedidos_360.orders.exception.SolicitudNoEncontradaException;
 import ms_pedidos_360.orders.exception.SolicitudYaAsignadaException;
@@ -8,6 +9,7 @@ import ms_pedidos_360.orders.model.Solicitud;
 import ms_pedidos_360.orders.repository.SolicitudRepository;
 import org.springframework.stereotype.Service;
 import ms_pedidos_360.orders.dto.CrearSolicitudRequest;
+import ms_pedidos_360.orders.repository.CategoriaLocalRepository;
 
 import java.util.List;
 
@@ -15,9 +17,14 @@ import java.util.List;
 public class SolicitudService {
 
     private final SolicitudRepository solicitudRepository;
+    private final CategoriaLocalRepository categoriaLocalRepository;
 
-    public SolicitudService(SolicitudRepository solicitudRepository) {
+    public SolicitudService(
+            SolicitudRepository solicitudRepository,
+            CategoriaLocalRepository categoriaLocalRepository) {
+
         this.solicitudRepository = solicitudRepository;
+        this.categoriaLocalRepository = categoriaLocalRepository;
     }
 
 
@@ -56,7 +63,21 @@ public class SolicitudService {
     }
 
 
+
     public Solicitud crear(CrearSolicitudRequest request) {
+
+        boolean categoriaExiste =
+                categoriaLocalRepository.existsByCategoriaId(
+                        request.categoriaId()
+                );
+
+        if (!categoriaExiste) {
+            throw new CategoriaLocalNoEncontradaException(
+                    "La categoría seleccionada todavía no está "
+                            + "disponible en el catálogo local de Solicitudes. "
+                            + "Intente nuevamente más tarde."
+            );
+        }
 
         Solicitud solicitud = new Solicitud();
 
@@ -72,6 +93,7 @@ public class SolicitudService {
 
         return solicitudRepository.save(solicitud);
     }
+
 
 
     public Solicitud actualizarEstado(

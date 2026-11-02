@@ -120,4 +120,22 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(error);
     }
+
+
+    @ExceptionHandler(CategoriaLocalNoEncontradaException.class)
+    public ResponseEntity<ErrorResponse> manejarCategoriaLocalNoEncontrada(
+            CategoriaLocalNoEncontradaException ex) {
+
+        ErrorResponse error = new ErrorResponse(
+                LocalDateTime.now(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Bad Request",
+                ex.getMessage()
+        );
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(error);
+    }
+
 }
