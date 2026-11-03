@@ -1,0 +1,17 @@
+
+# Secretos
+.env
+.env.*
+!.env.example
+
+# Git
+.git
+.gitignore
+
+# IDE
+.idea
+.vscode
+*.iml
+
+# Logs
+*.log
