@@ -1,0 +1,27 @@
+# VARIABLES DE ENTORNO Y SECRETOS
+.env
+.env.*
+**/.env
+**/.env.*
+
+!.env.example
+!**/.env.example
+
+# Archivos de secretos locales
+*.pem
+*.key
+*.p12
+*.jks
+
+# MAVEN / JAVA
+**/target/
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# SISTEMA OPERATIVO
+.DS_Store
+Thumbs.db
