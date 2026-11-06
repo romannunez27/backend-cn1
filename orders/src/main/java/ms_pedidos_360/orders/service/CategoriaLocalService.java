@@ -6,6 +6,9 @@ import ms_pedidos_360.orders.model.CategoriaLocal;
 import ms_pedidos_360.orders.repository.CategoriaLocalRepository;
 
 import org.springframework.stereotype.Service;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -63,7 +66,9 @@ public class CategoriaLocalService {
         categoria.setCategoriaId(mensaje.getCategoriaId());
         categoria.setNombre(mensaje.getNombre());
         categoria.setEventId(mensaje.getEventId());
-        categoria.setFechaEvento(mensaje.getFechaEvento());
+        // El publicador transmite Instant.now().toString() (ISO-8601 con Z).
+        categoria.setFechaEvento(LocalDateTime.ofInstant(
+                Instant.parse(mensaje.getFechaEvento()), ZoneOffset.UTC));
 
         // Persistir categoría en RDS Solicitudes
         categoriaLocalRepository.save(categoria);

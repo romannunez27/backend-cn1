@@ -1,13 +1,12 @@
 
 package ms_pedidos_360.orders.dto;
 
-import java.time.LocalDateTime;
 
 public class CategoriaMensaje {
 
     private String eventId;
     private String tipoEvento;
-    private LocalDateTime fechaEvento;
+    private String fechaEvento;
     private Long categoriaId;
     private String nombre;
 
@@ -30,11 +29,11 @@ public class CategoriaMensaje {
         this.tipoEvento = tipoEvento;
     }
 
-    public LocalDateTime getFechaEvento() {
+    public String getFechaEvento() {
         return fechaEvento;
     }
 
-    public void setFechaEvento(LocalDateTime fechaEvento) {
+    public void setFechaEvento(String fechaEvento) {
         this.fechaEvento = fechaEvento;
     }
 

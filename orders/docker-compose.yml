@@ -1,21 +1,14 @@
 services:
   orders:
-    image: mesatech-orders:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: mesatech-orders:aws
     container_name: mesatech-orders
     restart: unless-stopped
-
-    ports:
-      - "8082:8082"
-
     env_file:
       - .env
-
     environment:
-      SERVER_PORT: 8082
-
-    networks:
-      - mesatech-network
-
-networks:
-  mesatech-network:
-    driver: bridge
+      SPRING_PROFILES_ACTIVE: prod
+    ports:
+      - "8082:8082"

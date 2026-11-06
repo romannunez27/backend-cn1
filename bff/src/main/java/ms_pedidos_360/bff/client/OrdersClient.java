@@ -20,6 +20,13 @@ public class OrdersClient {
         this.ordersRestClient = ordersRestClient;
     }
 
+    public List<CategoriaLocalResponse> obtenerCategoriasLocales() {
+        return ordersRestClient.get()
+                .uri("/v1/categorias")
+                .retrieve()
+                .body(new ParameterizedTypeReference<List<CategoriaLocalResponse>>() {});
+    }
+
     public SolicitudResponse crearSolicitud(
             CrearSolicitudRequest request,
             String usuarioSolicitante) {

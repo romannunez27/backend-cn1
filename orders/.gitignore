@@ -34,3 +34,7 @@ build/
 
 ### H2 ###
 data/
+# Credenciales y configuraciones locales
+.env
+.env.*
+!.env.example
