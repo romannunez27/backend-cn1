@@ -10,6 +10,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.format.DateTimeParseException;
 
 @Service
 public class CategoriaLocalService {
@@ -67,8 +68,24 @@ public class CategoriaLocalService {
         categoria.setNombre(mensaje.getNombre());
         categoria.setEventId(mensaje.getEventId());
         // El publicador transmite Instant.now().toString() (ISO-8601 con Z).
-        categoria.setFechaEvento(LocalDateTime.ofInstant(
-                Instant.parse(mensaje.getFechaEvento()), ZoneOffset.UTC));
+
+        LocalDateTime fechaEvento;
+
+        try {
+            // Fechas ISO-8601 con zona horaria (UTC)
+            fechaEvento = LocalDateTime.ofInstant(
+                    Instant.parse(mensaje.getFechaEvento()),
+                    ZoneOffset.UTC
+            );
+
+        } catch (DateTimeParseException e) {
+            // Compatibilidad con mensajes anteriores sin zona horaria
+            fechaEvento = LocalDateTime.parse(
+                    mensaje.getFechaEvento()
+            );
+        }
+
+        categoria.setFechaEvento(fechaEvento);
 
         // Persistir categoría en RDS Solicitudes
         categoriaLocalRepository.save(categoria);
